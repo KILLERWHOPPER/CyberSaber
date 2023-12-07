@@ -8,12 +8,17 @@
 
 #include "devices.hpp"
 
+#define Encoder_CLK 5
+#define Encoder_DT 18
+#define Encoder_SW 19
+#define SCK 17
+#define SDA 16
 BLEAdvertising *pAdvertising;  // global variable
 uint32_t delayMilliseconds = 1000;
 
-SSD1306Wire display(0x3c, 16, 17, GEOMETRY_128_32);
+SSD1306Wire display(0x3c, SCK, SDA, GEOMETRY_128_32);
 
-REncoder encoder(/*CLK*/ 5, /*DT*/ 18, /*SW*/ 19);
+REncoder encoder(Encoder_CLK, Encoder_DT, Encoder_SW);
 long dp_num = 0;
 long global_flag = 0;
 // 0: Menu
