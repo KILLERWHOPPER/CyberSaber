@@ -21,7 +21,7 @@ TaskHandle_t th_p[2];  // Task handle list
 BLEAdvertising *pAdvertising;  // global variable
 uint32_t delayMilliseconds = 1000;
 
-SSD1306Wire display(0x3c, SCK, SDA, GEOMETRY_128_32);
+SSD1306Wire display(0x3c, SDA, SCK, GEOMETRY_128_32);
 
 REncoder encoder(Encoder_CLK, Encoder_DT, Encoder_SW);
 int device_id = 0;
