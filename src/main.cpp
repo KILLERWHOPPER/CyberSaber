@@ -81,12 +81,15 @@ void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
     case REncoder::Event::REncoder_Event_Rotate_CW:
       switch (global_flag) {
         case 0:
+        // Choose main menu option
           global_count++;
           if (global_count > 5) {
             global_count = 5;
           }
           break;
+
         case 1:
+        // Choose Evil Apple Juice device
           global_count++;
           if (global_count > 17) {
             global_count = 17;
@@ -106,19 +109,24 @@ void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
 void switchHandler() {
   switch (global_flag) {
     case 0:
+    // Switch to Evil Apple Juice choose device
       global_flag = 1;
       break;
+
     case 1:
       if (global_count == 17) {
+        // Back to menu
         global_flag = 0;
         global_count = 0;
       } else {
+        // Start Evil Apple Juice send packets
         global_flag = 2;
         ani_stage = 0;
       }
       break;
 
     case 2:
+    // Stop Evil Apple Juice send packets
       global_flag = 1;
       if (juice_status[1] == 1) {
         vTaskDelete(th_p[0]);
@@ -148,9 +156,12 @@ void loop() {
   display.clear();
   switch (global_flag) {
     case 0:
+    // Menu
       display.drawString(64, 16, menu[global_count]);
       break;
+
     case 1:
+    // Evil Apple Juice choose device
       if (global_count == 17) {
         display.drawString(64, 16, "Back");
       } else {
@@ -159,6 +170,7 @@ void loop() {
       break;
 
     case 2:
+    // Sending packets
       if (ani_stage == 4) ani_stage = 0;
       display.drawCircle(64, 16, cir_rs[ani_stage]);
       ani_stage++;
