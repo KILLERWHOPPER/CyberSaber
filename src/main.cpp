@@ -18,6 +18,12 @@
 #define Encoder_SW 19
 #define SCK 16
 #define SDA 17
+//TODO: change pin definitions for RFID board
+#define RST_PIN 9
+#define SS_1_PIN 10
+#define SS_2_PIN 8
+
+#define NR_OF_READERS   2
 
 TaskHandle_t th_p[2];  // Task handle list
 
@@ -75,6 +81,10 @@ void evilAppleJuiceStart(void *startJuice) {
     pAdvertising->stop();
     delay(1);
   }
+}
+
+void rs522Init(){
+    //TODO: init RFID dummy function
 }
 
 void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
