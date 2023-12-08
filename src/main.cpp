@@ -100,7 +100,7 @@ void switchHandler() {
 
     case 1:
       global_flag = 0;
-      if(juice_status[1]==1){
+      if (juice_status[1] == 1) {
         vTaskDelete(th_p[0]);
         pAdvertising->stop();
         juice_status[1] = 0;
