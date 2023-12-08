@@ -5,6 +5,8 @@
 #include <REncoder.h>
 #include <SSD1306Wire.h>
 #include <Wire.h>
+#include <SPI.h>
+#include <MFRC522.h>
 
 #include "arrays.hpp"
 #include "devices.hpp"
