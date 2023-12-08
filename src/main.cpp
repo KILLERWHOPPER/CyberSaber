@@ -6,6 +6,7 @@
 #include <SSD1306Wire.h>
 #include <Wire.h>
 
+#include "arrays.hpp"
 #include "devices.hpp"
 
 #define USE_MULTCORE 1
@@ -24,9 +25,11 @@ uint32_t delayMilliseconds = 1000;
 SSD1306Wire display(0x3c, SDA, SCK, GEOMETRY_128_32);
 
 REncoder encoder(Encoder_CLK, Encoder_DT, Encoder_SW);
-int device_id = 0;
+int global_count = 0;
 int global_flag = 0;
-int juice_status[2] = {0, 0};  // Initiated, Running
+uint8_t cir_rs[4] = {2, 4, 6, 8};
+int ani_stage = 0;
+uint8_t juice_status[2] = {0, 0};  // Initiated, Running
 // 0: Menu
 // 1: eval apple juice
 
@@ -50,7 +53,7 @@ void evilAppleJuiceStart(void *startJuice) {
     }
 
     BLEAdvertisementData oAdvertisementData = BLEAdvertisementData();
-    oAdvertisementData.addData(std::string((char *)DEVICES[device_id], 31));
+    oAdvertisementData.addData(std::string((char *)DEVICES[global_count], 31));
 
     int adv_type_choice = random(3);
     if (adv_type_choice == 0) {
@@ -74,21 +77,29 @@ void evilAppleJuiceStart(void *startJuice) {
 
 void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
                     RENCODER_ROTATION_VALUE_TYPE encPos) {
-  if (global_flag == 0) {
-    switch (encoderEvent) {
-      case REncoder::Event::REncoder_Event_Rotate_CW:
-        device_id++;
-        if (device_id > 16) {
-          device_id = 16;
-        }
-        break;
-      case REncoder::Event::REncoder_Event_Rotate_CCW:
-        device_id--;
-        if (device_id < 0) {
-          device_id = 0;
-        }
-        break;
-    }
+  switch (encoderEvent) {
+    case REncoder::Event::REncoder_Event_Rotate_CW:
+      switch (global_flag) {
+        case 0:
+          global_count++;
+          if (global_count > 5) {
+            global_count = 5;
+          }
+          break;
+        case 1:
+          global_count++;
+          if (global_count > 17) {
+            global_count = 17;
+          }
+          break;
+      }
+      break;
+    case REncoder::Event::REncoder_Event_Rotate_CCW:
+      global_count--;
+      if (global_count < 0) {
+        global_count = 0;
+      }
+      break;
   }
 }
 
@@ -97,9 +108,18 @@ void switchHandler() {
     case 0:
       global_flag = 1;
       break;
-
     case 1:
-      global_flag = 0;
+      if (global_count == 17) {
+        global_flag = 0;
+        global_count = 0;
+      } else {
+        global_flag = 2;
+        ani_stage = 0;
+      }
+      break;
+
+    case 2:
+      global_flag = 1;
       if (juice_status[1] == 1) {
         vTaskDelete(th_p[0]);
         pAdvertising->stop();
@@ -124,16 +144,21 @@ void setup() {
   Serial.begin(115200);
 }
 
-uint8_t cir_rs[4] = {2, 4, 6, 8};
-uint8_t ani_stage = 0;
 void loop() {
   display.clear();
   switch (global_flag) {
     case 0:
-      display.drawString(64, 16, DEVICE_NAME[device_id]);
+      display.drawString(64, 16, menu[global_count]);
+      break;
+    case 1:
+      if (global_count == 17) {
+        display.drawString(64, 16, "Back");
+      } else {
+        display.drawString(64, 16, DEVICE_NAME[global_count]);
+      }
       break;
 
-    case 1:
+    case 2:
       if (ani_stage == 4) ani_stage = 0;
       display.drawCircle(64, 16, cir_rs[ani_stage]);
       ani_stage++;
@@ -146,6 +171,7 @@ void loop() {
                                 &th_p[0], 0);
         juice_status[1] = 1;
       }
+      break;
   }
 
   display.display();
