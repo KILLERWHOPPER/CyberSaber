@@ -46,50 +46,44 @@ My first ESP 32 project, Try to make a replica of [Flipper Zero](https://flipper
 
 ## ✨ Features
 
-✔️ Feature 1;
-✔️ Feature 2;
-✔️ Feature 3;
+✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32);
+🚧 RFID read;
+🚧 RFID simulate
+🚧 RFID Write;
 
 ## 🚀 Technologies
 
 The following tools were used in this project:
 
-- [Expo](https://expo.io/)
-- [Node.js](https://nodejs.org/en/)
-- [React](https://pt-br.reactjs.org/)
-- [React Native](https://reactnative.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
+- [PlatformIO](https://github.com/platformio?utm_source=platformio&utm_medium=piohome)
+- [ESP32 Core for Arduino](https://github.com/espressif/arduino-esp32)
 
 ## ✅ Requirements
 
-Before starting 🏁, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
-
+- ESP32 WROOM
+- 0.91" Display module with SSD1306
+- HW040 Encoder module
+- RC522 RFID module
 ## 🏁 Starting
 
 ```bash
 # Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/cybersaber
+$ git clone https://github.com/KILLERWHOPPER/cybersaber
 
 # Access
 $ cd cybersaber
-
-# Install dependencies
-$ yarn
-
-# Run the project
-$ yarn start
-
-# The server will initialize in the <http://localhost:3000>
 ```
+I should put a wire diagram here after find out how to drive the RFID module
+
 
 ## 📝 License
 
 This project is under license from WTFPL For more details, see the [LICENSE](LICENSE) file.
 
-Made with ❤️ by 
+Made with ❤️ by
 
 - <a href="https://github.com/KILLERWHOPPER" target="_blank">KILLERWHOPPER</a>
 
 &#xa0;
 
-<a href="#top">Back to top</a>
+`<a href="#top">`Back to top`</a>`
