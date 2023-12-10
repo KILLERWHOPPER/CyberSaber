@@ -49,7 +49,7 @@ My first ESP 32 project, Try to make a replica of [Flipper Zero](https://flipper
 ✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32)\
 🚧 RFID read\
 🚧 RFID simulate\
-🚧 RFID Write\
+🚧 RFID Write
 
 ## 🚀 Technologies
 
