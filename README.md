@@ -29,12 +29,12 @@
 <hr> -->
 
 <p align="center">
-  <a href="#dart-about">About</a>   |   
-  <a href="#sparkles-features">Features</a>   |  
-  <a href="#rocket-technologies">Technologies</a>   |  
-  <a href="#white_check_mark-requirements">Requirements</a>   |  
-  <a href="#checkered_flag-starting">Starting</a>   |  
-  <a href="#memo-license">License</a>   |  
+  <a href="#🎯-About">About</a>   |   
+  <a href="#✨-Features">Features</a>   |  
+  <a href="#🚀-technologies">Technologies</a>   |  
+  <a href="#✅-requirements">Requirements</a>   |  
+  <a href="#🏁-starting">Starting</a>   |  
+  <a href="#📝-license">License</a>   |  
   <a href="https://github.com/KILLERWHOPPER" target="_blank">Author</a>
 </p>
 
