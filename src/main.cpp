@@ -2,11 +2,11 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
+#include <MFRC522.h>
 #include <REncoder.h>
+#include <SPI.h>
 #include <SSD1306Wire.h>
 #include <Wire.h>
-#include <SPI.h>
-#include <MFRC522.h>
 
 #include "arrays.hpp"
 #include "devices.hpp"
@@ -18,12 +18,15 @@
 #define Encoder_SW 19
 #define SCK 16
 #define SDA 17
-//TODO: change pin definitions for RFID board
-#define RST_PIN 9
-#define SS_1_PIN 10
+#define SS 2
+#define SCK_RC 4
+// TODO: change pin definitions for RFID board
+#define RST 21
+#define MISO 22
+#define MOSI 23
 #define SS_2_PIN 8
 
-#define NR_OF_READERS   2
+#define NR_OF_READERS 2
 
 TaskHandle_t th_p[2];  // Task handle list
 
@@ -32,7 +35,10 @@ uint32_t delayMilliseconds = 1000;
 
 SSD1306Wire display(0x3c, SDA, SCK, GEOMETRY_128_32);
 
+MFRC522 mfrc522 = MFRC522(SS, RST);
+
 REncoder encoder(Encoder_CLK, Encoder_DT, Encoder_SW);
+
 int global_count = 0;
 int global_flag = 0;
 uint8_t cir_rs[4] = {2, 4, 6, 8};
@@ -83,8 +89,11 @@ void evilAppleJuiceStart(void *startJuice) {
   }
 }
 
-void rs522Init(){
-    //TODO: init RFID dummy function
+void rs522Init() {
+  // TODO: init RFID dummy function
+  SPI.begin();
+  mfrc522.PCD_Init();
+  mfrc522.PCD_DumpVersionToSerial();
 }
 
 void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
@@ -93,7 +102,7 @@ void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
     case REncoder::Event::REncoder_Event_Rotate_CW:
       switch (global_flag) {
         case 0:
-        // Choose main menu option
+          // Choose main menu option
           global_count++;
           if (global_count > 5) {
             global_count = 5;
@@ -101,10 +110,18 @@ void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
           break;
 
         case 1:
-        // Choose Evil Apple Juice device
+          // Choose Evil Apple Juice device
           global_count++;
           if (global_count > 17) {
             global_count = 17;
+          }
+          break;
+
+        case 3:
+          // Choose RFID device
+          global_count++;
+          if (global_count > 2) {
+            global_count = 2;
           }
           break;
       }
@@ -121,8 +138,19 @@ void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
 void switchHandler() {
   switch (global_flag) {
     case 0:
-    // Switch to Evil Apple Juice choose device
-      global_flag = 1;
+      switch (global_count) {
+        case 0:
+          // Switch to Evil Apple Juice choose device
+          global_flag = 1;
+          global_count = 0;
+          break;
+        case 1:
+          // Switch to RFID choose device
+          global_flag = 3;
+          global_count = 0;
+          
+          break;
+      }
       break;
 
     case 1:
@@ -138,7 +166,7 @@ void switchHandler() {
       break;
 
     case 2:
-    // Stop Evil Apple Juice send packets
+      // Stop Evil Apple Juice send packets
       global_flag = 1;
       if (juice_status[1] == 1) {
         vTaskDelete(th_p[0]);
@@ -146,9 +174,21 @@ void switchHandler() {
         juice_status[1] = 0;
       }
       break;
+    
+    case 3:
+      if (global_count == 2) {
+        // Back to menu
+        global_flag = 0;
+        global_count = 0;
+      } else {
+        // Start RFID send packets
+        global_flag = 4;
+        global_count = 0;
+      }
+      break;
   }
 
-  Serial.println("IRQ -> Switch pushed.");
+  //Serial.println("IRQ -> Switch pushed.");
 }
 
 void setup() {
@@ -168,12 +208,12 @@ void loop() {
   display.clear();
   switch (global_flag) {
     case 0:
-    // Menu
+      // Menu
       display.drawString(64, 16, menu[global_count]);
       break;
 
     case 1:
-    // Evil Apple Juice choose device
+      // Evil Apple Juice choose device
       if (global_count == 17) {
         display.drawString(64, 16, "Back");
       } else {
@@ -182,9 +222,12 @@ void loop() {
       break;
 
     case 2:
-    // Sending packets
+      // Sending packets
       if (ani_stage == 4) ani_stage = 0;
       display.drawCircle(64, 16, cir_rs[ani_stage]);
+      display.setTextAlignment(TEXT_ALIGN_LEFT);
+      display.drawString(0, 0, DEVICE_NAME[global_count]);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
       ani_stage++;
       if (juice_status[0] == 0) {
         evilAppleJuiceInit();
@@ -196,6 +239,21 @@ void loop() {
         juice_status[1] = 1;
       }
       break;
+
+    case 3:
+      // RFID menu
+      if(global_count == 2) {
+        display.drawString(64, 16, "Back");
+      } else {
+        display.drawString(64, 16, rfid_menu[global_count]);
+      }
+      break;
+
+    case 4:
+        rs522Init();
+        break;
+
+
   }
 
   display.display();
