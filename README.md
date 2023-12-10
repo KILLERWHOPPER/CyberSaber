@@ -1,7 +1,7 @@
-<div align="center" id="top"> 
+<!-- <div align="center" id="top"> 
   <img src="./.github/app.gif" alt="CyberSaber" />
 
-  &#xa0;
+  &#xa0; -->
 
 <!-- <a href="https://cybersaber.netlify.app">Demo</a> -->
 
@@ -10,19 +10,13 @@
 <h1 align="center">CyberSaber</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/KILLERWHOPPER/cybersaber?color=56BEB8">
-
-  `<img alt="Github language count" src="https://img.shields.io/github/languages/count/KILLERWHOPPER/cybersaber?color=56BEB8">`
-
-  `<img alt="Repository size" src="https://img.shields.io/github/repo-size/KILLERWHOPPER/cybersaber?color=56BEB8">`
-
+<img alt="Github top language" src="https://img.shields.io/github/languages/top/KILLERWHOPPER/cybersaber?color=56BEB8">
+<img alt="Github language count" src="https://img.shields.io/github/languages/count/KILLERWHOPPER/cybersaber?color=56BEB8">
+<img alt="Repository size" src="https://img.shields.io/github/repo-size/KILLERWHOPPER/cybersaber?color=56BEB8">
 <img alt="License" src="https://img.shields.io/github/license/KILLERWHOPPER/cybersaber?color=56BEB8">
-
-<img alt="Github issues" src="https://img.shields.io/github/issues/KILLERWHOPPER/cybersaber?color=56BEB8" />
-
-<img alt="Github forks" src="https://img.shields.io/github/forks/KILLERWHOPPER/cybersaber?color=56BEB8" />
-
-<img alt="Github stars" src="https://img.shields.io/github/stars/KILLERWHOPPER/cybersaber?color=56BEB8" />
+<img alt="Github issues" src="https://img.shields.io/github/issues/KILLERWHOPPER/cybersaber?color=56BEB8">
+<img alt="Github forks" src="https://img.shields.io/github/forks/KILLERWHOPPER/cybersaber?color=56BEB8">
+<img alt="Github stars" src="https://img.shields.io/github/stars/KILLERWHOPPER/cybersaber?color=56BEB8">
 
 </p>
 
@@ -90,10 +84,12 @@ $ yarn start
 
 ## 📝 License
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
+This project is under license from WTFPL For more details, see the [LICENSE](LICENSE) file.
 
-Made with ❤️ by `<a href="https://github.com/KILLERWHOPPER" target="_blank">`KILLERWHOPPER`</a>`
+Made with ❤️ by 
+
+- <a href="https://github.com/KILLERWHOPPER" target="_blank">KILLERWHOPPER</a>
 
 &#xa0;
 
-`<a href="#top">`Back to top`</a>`
+<a href="#top">Back to top</a>
