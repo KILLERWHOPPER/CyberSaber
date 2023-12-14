@@ -20,21 +20,19 @@
 
 </p>
 
-<!-- Status -->
-
-<!-- <h4 align="center"> 
+<h4 align="center"> 
+	
 	🚧  CyberSaber 🚀 Under construction...  🚧
 </h4> 
 
-<hr> -->
-
+<hr>
 <p align="center">
-  <a href="#🎯-About">About</a>   |   
-  <a href="#✨-Features">Features</a>   |  
-  <a href="#🚀-technologies">Technologies</a>   |  
-  <a href="#✅-requirements">Requirements</a>   |  
-  <a href="#🏁-starting">Starting</a>   |  
-  <a href="#📝-license">License</a>   |  
+  <a href="#-about">About</a>   |   
+  <a href="#-features">Features</a>   |  
+  <a href="#-technologies">Technologies</a>   |  
+  <a href="#-requirements">Requirements</a>   |  
+  <a href="#-starting">Starting</a>   |  
+  <a href="#-license" target="_blank">License</a>   |  
   <a href="https://github.com/KILLERWHOPPER" target="_blank">Author</a>
 </p>
 
@@ -46,10 +44,10 @@ My first ESP 32 project, Try to make a replica of [Flipper Zero](https://flipper
 
 ## ✨ Features
 
-✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32)
-✔️ RFID Read
-🚧 RFID Storage
-🚧 RFID Simulate
+✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32) \
+✔️ RFID Read \
+🚧 RFID Storage \
+🚧 RFID Simulate \
 🚧 RFID Write
 
 ## 🚀 Technologies
@@ -70,7 +68,7 @@ The following tools were used in this project:
 - Clone this project
 - Install PlatformIO from VSCode plugin market
 - Open the project in PlatformIO
-- Wiring components and connect ESP32 to computer
+- Wiring components and connecting ESP32 to the computer
 - Upload and Monitor
 \
 ![wiring](image/README/wiring.png)
