@@ -46,9 +46,10 @@ My first ESP 32 project, Try to make a replica of [Flipper Zero](https://flipper
 
 ## ✨ Features
 
-✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32)\
-🚧 RFID read\
-🚧 RFID simulate\
+✔️ [Evil Apple Juice](https://github.com/ckcr4lyf/EvilAppleJuice-ESP32)
+✔️ RFID Read
+🚧 RFID Storage
+🚧 RFID Simulate
 🚧 RFID Write
 
 ## 🚀 Technologies
@@ -64,17 +65,15 @@ The following tools were used in this project:
 - 0.91" Display module with SSD1306
 - HW040 Encoder module
 - RC522 RFID module
+
 ## 🏁 Starting
-
-```bash
-# Clone this project
-$ git clone https://github.com/KILLERWHOPPER/cybersaber
-
-# Access
-$ cd cybersaber
-```
-I should put a wire diagram here after find out how to drive the RFID module
-
+- Clone this project
+- Install PlatformIO from VSCode plugin market
+- Open the project in PlatformIO
+- Wiring components and connect ESP32 to computer
+- Upload and Monitor
+\
+![wiring](image/README/wiring.png)
 
 ## 📝 License
 
