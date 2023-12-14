@@ -209,7 +209,7 @@ void loop() {
     case 4:
       // RFID read
       // Display
-      if (ani_stage == 0) ani_stage = 3;
+      if (ani_stage == -1) ani_stage = 3;
       display.drawCircle(64, 16, cir_rs[ani_stage]);
       display.setTextAlignment(TEXT_ALIGN_LEFT);
       display.drawString(0, 0, "Reading RFID");
