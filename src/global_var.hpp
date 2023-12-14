@@ -1,9 +1,16 @@
+#pragma once
+
 #include <Arduino.h>
 
-/*
-  These are audio devices: wireless headphones / earbuds
-  It seems these need a shorter range between ESP & iDevice
-*/
+
+
+int global_count = 0;
+int global_flag = 0;
+uint8_t cir_rs[4] = {2, 4, 6, 8};
+int ani_stage = 0;
+
+const char* menu[6] = {"Evil Apple Juice", "NFC Read", "NFC Write", "RFID Read", "RFID Write", "Something else"};
+const char* rfid_menu[] = {"Read", "Write"};
 
 const char* DEVICE_NAME[17] = {"Aripods",
                                "Airpods Pro",
@@ -99,6 +106,7 @@ const uint8_t DEVICES[][31] = {
   It seems these can work over long distances, especially AppleTV Setup
 */
 const uint8_t SHORT_DEVICES[][23] = {
+
     // AppleTV Setup
     {0x16, 0xff, 0x4c, 0x00, 0x04, 0x04, 0x2a, 0x00, 0x00, 0x00, 0x0f, 0x05,
      0xc1, 0x01, 0x60, 0x4c, 0x95, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00},

@@ -7,45 +7,257 @@
 #include <SPI.h>
 #include <SSD1306Wire.h>
 #include <Wire.h>
+#include <string.h>
 
-#include "arrays.hpp"
-#include "devices.hpp"
+#include "global_var.hpp"
+#include "pin_define.hpp"
+#include "util.hpp"
 
 #define USE_MULTCORE 1
-
-#define Encoder_CLK 5
-#define Encoder_DT 18
-#define Encoder_SW 19
-#define SCK 16
-#define SDA 17
-#define SS 2
-#define SCK_RC 4
-// TODO: change pin definitions for RFID board
-#define RST 21
-#define MISO 22
-#define MOSI 23
-#define SS_2_PIN 8
 
 #define NR_OF_READERS 2
 
 TaskHandle_t th_p[2];  // Task handle list
 
-BLEAdvertising *pAdvertising;  // global variable
-uint32_t delayMilliseconds = 1000;
-
+// Display Stub
 SSD1306Wire display(0x3c, SDA, SCK, GEOMETRY_128_32);
 
-MFRC522 mfrc522 = MFRC522(SS, RST);
+// BLE Stub
+BLEAdvertising *pAdvertising;
+uint32_t delayMilliseconds = 1000;
+uint8_t juice_status[2] = {0, 0};  // Initiated, Running
 
+// RFID Stub
+MFRC522 mfrc522 = MFRC522(SDA_RC, RST_RC);
+byte nuidPICC[4];
+uint8_t rc522_status[3] = {0, 0, 0};  // Initiated, Running
+char *strbuf = (char *)malloc(32);
+
+// Encoder Stub
 REncoder encoder(Encoder_CLK, Encoder_DT, Encoder_SW);
 
-int global_count = 0;
-int global_flag = 0;
-uint8_t cir_rs[4] = {2, 4, 6, 8};
-int ani_stage = 0;
-uint8_t juice_status[2] = {0, 0};  // Initiated, Running
-// 0: Menu
-// 1: eval apple juice
+void evilAppleJuiceInit();
+
+void evilAppleJuiceStart(void *startJuice);
+
+void rs522Init();
+
+void rs522Read(void *readRFID);
+
+void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
+                    RENCODER_ROTATION_VALUE_TYPE encPos) {
+  switch (encoderEvent) {
+    case REncoder::Event::REncoder_Event_Rotate_CW:
+      switch (global_flag) {
+        case 0:
+          // Choose main menu option
+          global_count++;
+          if (global_count > 5) {
+            global_count = 5;
+          }
+          break;
+
+        case 1:
+          // Choose Evil Apple Juice device
+          global_count++;
+          if (global_count > 17) {
+            global_count = 17;
+          }
+          break;
+
+        case 3:
+          // Choose RFID device
+          global_count++;
+          if (global_count > 2) {
+            global_count = 2;
+          }
+          break;
+      }
+      break;
+    case REncoder::Event::REncoder_Event_Rotate_CCW:
+      if (global_flag != 2) {
+        global_count--;
+        if (global_count < 0) {
+          global_count = 0;
+        }
+      }
+      break;
+  }
+}
+
+void switchHandler() {
+  switch (global_flag) {
+    case 0:
+      switch (global_count) {
+        case 0:
+          // Switch to Evil Apple Juice choose device
+          global_flag = 1;
+          global_count = 0;
+          //   Serial.print("Get into Apple Juice Menu\n");
+          break;
+        case 1:
+          // Switch to RFID Menu
+          global_flag = 3;
+          global_count = 0;
+          //   Serial.print("Get into RFID Menu\n");
+          break;
+      }
+      break;
+
+    case 1:
+      if (global_count == 17) {
+        // Back to menu
+        global_flag = 0;
+        global_count = 0;
+        // Serial.print("Back to Main Menu\n");
+      } else {
+        // Start Evil Apple Juice send packets
+        global_flag = 2;
+        ani_stage = 0;
+        // Serial.print("Start send package\n");
+      }
+      break;
+
+    case 2:
+      // Stop Evil Apple Juice send packets
+      global_flag = 1;
+      //   Serial.print("Stop send package\n");
+      break;
+
+    case 3:
+      if (global_count == 2) {
+        // Back to menu
+        global_flag = 0;
+        global_count = 0;
+        // Serial.print("Back to Main Menu\n");
+      } else if (global_count == 0) {
+        // Start RFID read
+        global_flag = 4;
+        global_count = 0;
+        // Serial.print("Start read RFID\n");
+      }
+      break;
+
+    case 4:
+      global_count = 0;
+      global_flag = 3;
+      // Serial.print("Stop read RFID\n");
+      break;
+  }
+}
+
+void setup() {
+  // Initialize display
+  display.init();
+  display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+  // Initialize incoder
+  encoder.setMinEncoderPosition(-1);
+  encoder.setMaxEncoderPosition(1);
+  encoder.attachSwitchHandler(switchHandler);
+  encoder.attachEncoderHandler(encoderHandler);
+  // Start serial port
+  Serial.begin(115200);
+}
+
+void loop() {
+  display.clear();
+  switch (global_flag) {
+    case 0:
+      // Menu
+      display.drawString(64, 16, menu[global_count]);
+      break;
+
+    case 1:
+      // Evil Apple Juice choose device
+      if (global_count == 17) {
+        display.drawString(64, 16, "Back");
+      } else {
+        display.drawString(64, 16, DEVICE_NAME[global_count]);
+      }
+      break;
+
+    case 2:
+      // Sending packets
+      // Display
+      if (ani_stage == 4) ani_stage = 0;
+      display.drawCircle(64, 16, cir_rs[ani_stage]);
+      display.setTextAlignment(TEXT_ALIGN_LEFT);
+      display.drawString(0, 0, DEVICE_NAME[global_count]);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      ani_stage++;
+      // Logic
+      if (juice_status[0] == 0) {
+        evilAppleJuiceInit();
+        juice_status[0] = 1;
+      }
+      if (juice_status[1] == 0) {
+        xTaskCreatePinnedToCore(evilAppleJuiceStart, "JuiceRun", 4096, NULL, 1,
+                                &th_p[0], 0);
+        juice_status[1] = 1;
+      }
+      break;
+
+    case 3:
+      // RFID menu
+      if (global_count == 2) {
+        display.drawString(64, 16, "Back");
+      } else {
+        display.drawString(64, 16, rfid_menu[global_count]);
+      }
+      break;
+
+    case 4:
+      // RFID read
+      // Display
+      if (ani_stage == 0) ani_stage = 3;
+      display.drawCircle(64, 16, cir_rs[ani_stage]);
+      display.setTextAlignment(TEXT_ALIGN_LEFT);
+      display.drawString(0, 0, "Reading RFID");
+      ani_stage--;
+      display.drawString(0, 16, strbuf);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      // Logic
+      if (rc522_status[0] == 0) {
+        rs522Init();
+        rc522_status[0] = 1;
+      }
+      if (rc522_status[1] == 0) {
+        xTaskCreatePinnedToCore(rs522Read, "RS522Read", 4096, NULL, 1, &th_p[1],
+                                0);
+        rc522_status[1] = 1;
+      }
+      break;
+  }
+    
+  if (global_flag != 2) {
+    if (juice_status[1] == 1) {
+      // Stop Evil Apple Juice
+      vTaskDelete(th_p[0]);
+      juice_status[1] = 0;
+    }
+    if (juice_status[0] == 1) {
+      // Stop BLE device
+      pAdvertising->stop();
+      juice_status[0] = 0;
+    }
+  }
+
+  if (global_flag != 4) {
+    if (rc522_status[1] == 1) {
+      // Stop RFID read
+      vTaskDelete(th_p[1]);
+      rc522_status[1] = 0;
+    }
+    if (rc522_status[0] == 1) {
+      // Stop RFID device
+      //mfrc522.PCD_StopCrypto1();      // Cause freeze
+      rc522_status[0] = 0;
+    }
+  }
+
+  display.display();
+  delay(200);
+}
 
 void evilAppleJuiceInit() {
   BLEDevice::init("StartName");
@@ -90,172 +302,44 @@ void evilAppleJuiceStart(void *startJuice) {
 }
 
 void rs522Init() {
-  // TODO: init RFID dummy function
   SPI.begin();
   mfrc522.PCD_Init();
   mfrc522.PCD_DumpVersionToSerial();
 }
 
-void encoderHandler(REncoderWithoutSwitch::Event encoderEvent,
-                    RENCODER_ROTATION_VALUE_TYPE encPos) {
-  switch (encoderEvent) {
-    case REncoder::Event::REncoder_Event_Rotate_CW:
-      switch (global_flag) {
-        case 0:
-          // Choose main menu option
-          global_count++;
-          if (global_count > 5) {
-            global_count = 5;
-          }
-          break;
+void rs522Read(void *readRFID) {
+  while (1) {
+    delay(1);
+    if (!mfrc522.PICC_IsNewCardPresent()) continue;
 
-        case 1:
-          // Choose Evil Apple Juice device
-          global_count++;
-          if (global_count > 17) {
-            global_count = 17;
-          }
-          break;
+    // Check readable
+    if (!mfrc522.PICC_ReadCardSerial()) continue;
 
-        case 3:
-          // Choose RFID device
-          global_count++;
-          if (global_count > 2) {
-            global_count = 2;
-          }
-          break;
-      }
-      break;
-    case REncoder::Event::REncoder_Event_Rotate_CCW:
-      global_count--;
-      if (global_count < 0) {
-        global_count = 0;
-      }
-      break;
+    MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
+
+    // Check NUID
+    if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&
+        piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
+        piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
+      Serial.println("Unsupported Tag");
+      continue;
+    }
+
+    // Store NUID in nuidPICC array
+    for (byte i = 0; i < 4; i++) {
+      nuidPICC[i] = mfrc522.uid.uidByte[i];
+    }
+    rc522_status[2] = 1;
+    byte2HexStr(nuidPICC, strbuf);
+    Serial.print("UID in HEX:");
+    printHex(mfrc522.uid.uidByte, mfrc522.uid.size);
+    Serial.println();
+
+    Serial.print("UID in DEC:");
+    printDec(mfrc522.uid.uidByte, mfrc522.uid.size);
+    Serial.println();
+
+    // Send sleep command
+    mfrc522.PICC_HaltA();
   }
-}
-
-void switchHandler() {
-  switch (global_flag) {
-    case 0:
-      switch (global_count) {
-        case 0:
-          // Switch to Evil Apple Juice choose device
-          global_flag = 1;
-          global_count = 0;
-          break;
-        case 1:
-          // Switch to RFID choose device
-          global_flag = 3;
-          global_count = 0;
-          
-          break;
-      }
-      break;
-
-    case 1:
-      if (global_count == 17) {
-        // Back to menu
-        global_flag = 0;
-        global_count = 0;
-      } else {
-        // Start Evil Apple Juice send packets
-        global_flag = 2;
-        ani_stage = 0;
-      }
-      break;
-
-    case 2:
-      // Stop Evil Apple Juice send packets
-      global_flag = 1;
-      if (juice_status[1] == 1) {
-        vTaskDelete(th_p[0]);
-        pAdvertising->stop();
-        juice_status[1] = 0;
-      }
-      break;
-    
-    case 3:
-      if (global_count == 2) {
-        // Back to menu
-        global_flag = 0;
-        global_count = 0;
-      } else {
-        // Start RFID send packets
-        global_flag = 4;
-        global_count = 0;
-      }
-      break;
-  }
-
-  //Serial.println("IRQ -> Switch pushed.");
-}
-
-void setup() {
-  display.init();
-
-  display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-
-  encoder.setMinEncoderPosition(-1);
-  encoder.setMaxEncoderPosition(1);
-  encoder.attachSwitchHandler(switchHandler);
-
-  encoder.attachEncoderHandler(encoderHandler);
-  Serial.begin(115200);
-}
-
-void loop() {
-  display.clear();
-  switch (global_flag) {
-    case 0:
-      // Menu
-      display.drawString(64, 16, menu[global_count]);
-      break;
-
-    case 1:
-      // Evil Apple Juice choose device
-      if (global_count == 17) {
-        display.drawString(64, 16, "Back");
-      } else {
-        display.drawString(64, 16, DEVICE_NAME[global_count]);
-      }
-      break;
-
-    case 2:
-      // Sending packets
-      if (ani_stage == 4) ani_stage = 0;
-      display.drawCircle(64, 16, cir_rs[ani_stage]);
-      display.setTextAlignment(TEXT_ALIGN_LEFT);
-      display.drawString(0, 0, DEVICE_NAME[global_count]);
-      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-      ani_stage++;
-      if (juice_status[0] == 0) {
-        evilAppleJuiceInit();
-        juice_status[0] = 1;
-      }
-      if (juice_status[1] == 0) {
-        xTaskCreatePinnedToCore(evilAppleJuiceStart, "JuiceRun", 4096, NULL, 1,
-                                &th_p[0], 0);
-        juice_status[1] = 1;
-      }
-      break;
-
-    case 3:
-      // RFID menu
-      if(global_count == 2) {
-        display.drawString(64, 16, "Back");
-      } else {
-        display.drawString(64, 16, rfid_menu[global_count]);
-      }
-      break;
-
-    case 4:
-        rs522Init();
-        break;
-
-
-  }
-
-  display.display();
-  delay(200);
 }
