@@ -2,7 +2,6 @@
 
 #include <SSD1306Wire.h>
 #include <Wire.h>
-#include <string.h>
 
 #include "global_var.hpp"
 #include "pin_define.hpp"
