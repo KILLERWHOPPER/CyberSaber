@@ -75,7 +75,7 @@ The following tools were used in this project:
 
 ## 📝 License
 
-This project is under license from WTFPL For more details, see the [LICENSE](LICENSE) file.
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
 
 Made with ❤️ by
 
