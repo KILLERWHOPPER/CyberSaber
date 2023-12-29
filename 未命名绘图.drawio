@@ -1,30 +1,86 @@
-<mxfile host="app.diagrams.net" modified="2023-12-29T06:24:10.280Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="ce-HRdMSnR9GuX3s_Mwr" version="22.1.15" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-29T06:28:35.449Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="Va9aotgQSNAhVgPrQ08D" version="22.1.15" type="github">
   <diagram name="第 1 页" id="FAfDar8AXypJwFVzPQgu">
     <mxGraphModel dx="2074" dy="784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-2" target="3Ltr1kRRQfsOtF6HaQOd-3">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-9" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-8">
-          <mxGeometry x="-0.1323" y="2" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="3Ltr1kRRQfsOtF6HaQOd-2" value="Main Menu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="340" y="60" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-3" target="3Ltr1kRRQfsOtF6HaQOd-2">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-3" value="Evil Apple Juice&lt;br&gt;Choose Device Menu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="220" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-11" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-10">
-          <mxGeometry x="-0.224" y="-4" relative="1" as="geometry">
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-12" value="Sending Packet" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-17" value="RFID Menu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-19" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-3" target="3Ltr1kRRQfsOtF6HaQOd-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="430" as="sourcePoint" />
+            <mxPoint x="440" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-20" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-19">
+          <mxGeometry x="0.2923" y="-2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-3" value="Evil Apple Juice&lt;br&gt;Choose Device Menu" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="130" y="220" width="120" height="60" as="geometry" />
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-21" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-12" target="3Ltr1kRRQfsOtF6HaQOd-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="430" as="sourcePoint" />
+            <mxPoint x="440" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-22" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-21">
+          <mxGeometry x="0.275" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-23" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-17" target="3Ltr1kRRQfsOtF6HaQOd-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="230" as="sourcePoint" />
+            <mxPoint x="350" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-24" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-23">
+          <mxGeometry x="0.2923" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-25" target="3Ltr1kRRQfsOtF6HaQOd-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-31" value="Card Detected" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-30">
+          <mxGeometry x="-0.45" y="1" relative="1" as="geometry">
+            <mxPoint y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-25" value="RFID Read UID" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-26" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-17" target="3Ltr1kRRQfsOtF6HaQOd-25">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="230" as="sourcePoint" />
+            <mxPoint x="380" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-27" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-26">
+          <mxGeometry x="0.2923" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="3Ltr1kRRQfsOtF6HaQOd-29" target="3Ltr1kRRQfsOtF6HaQOd-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-33" value="Push Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3Ltr1kRRQfsOtF6HaQOd-32">
+          <mxGeometry x="0.425" y="-2" relative="1" as="geometry">
+            <mxPoint y="27" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3Ltr1kRRQfsOtF6HaQOd-29" value="Card Info Display" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="510" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
