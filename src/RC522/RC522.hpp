@@ -15,6 +15,6 @@ extern uint8_t rc522_status[3];  // Initiated, Running
 
 void rc522Init();
 
-void rc522Read(void *readRFID);
+void rc522ReadUID(void *readRFIDUID);
 
 #endif

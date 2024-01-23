@@ -96,7 +96,7 @@ void loop() {
         rc522_status[0] = 1;
       }
       if (rc522_status[1] == 0) {
-        xTaskCreatePinnedToCore(rc522Read, "RC522Read", 4096, NULL, 1, &th_p[1],
+        xTaskCreatePinnedToCore(rc522ReadUID, "RC522ReadUID", 4096, NULL, 1, &th_p[1],
                                 0);
         rc522_status[1] = 1;
       }

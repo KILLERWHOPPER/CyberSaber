@@ -10,9 +10,9 @@ void rc522Init() {
   mfrc522.PCD_DumpVersionToSerial();
 }
 
-void rc522Read(void *readRFID) {
+void rc522ReadUID(void *readRFIDUID) {
   while (1) {
-    // Serial.print("Reading");
+    Serial.print("Reading");
     if (!mfrc522.PICC_IsNewCardPresent()) continue;
 
     // Check readable
