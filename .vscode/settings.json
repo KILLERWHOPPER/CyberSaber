@@ -286,6 +286,7 @@
   "files.associations": {
     "*.c": "c",
     "string": "cpp",
-    "cstring": "cpp"
-  }
+    "cstring": "cpp",
+    "fstream": "cpp"
+}
 }

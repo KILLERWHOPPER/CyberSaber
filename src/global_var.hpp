@@ -2,26 +2,25 @@
 #define GLOBAL_VAR_HPP
 
 #include <Arduino.h>
+#include <SSD1306Wire.h>
+
+enum page_index {
+    MENU = 0,
+    EVIL_APPLE_JUICE = 1,
+    RC522 = 2
+};
+
+extern SSD1306Wire display;
+extern TaskHandle_t th_p[];
+extern page_index global_page;
 
 extern int global_count;
-extern int global_flag;
 extern uint8_t cir_rs[];
 extern int ani_stage;
 
-extern char *strbuf;
-extern char *strbuf2;
+
 
 extern const char* menu[];
-extern const char* rfid_menu[];
 
-extern const char* DEVICE_NAME[];
-
-extern const uint8_t DEVICES[][31];
-
-/*
-  These are more general home devices
-  It seems these can work over long distances, especially AppleTV Setup
-*/
-extern const uint8_t SHORT_DEVICES[][23];
 
 #endif

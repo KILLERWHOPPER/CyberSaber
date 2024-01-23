@@ -1,8 +1,15 @@
 #include "RC522.hpp"
 
+const char *rfid_menu[] = {"Read", "Write", "Back"};
+
+rc522_menu_page rc522_page = FUNC_MENU;
+
 MFRC522 mfrc522 = MFRC522(SDA_RC, RST_RC);
-byte nuidPICC[4];
-uint8_t rc522_status[3] = {0, 0, 0};  // Initiated, Running
+byte nuidPICC[4] = {0, 0, 0, 0};
+uint8_t rc522_status[3] = {0, 0, 0};  // Initiated, Running, Menu count
+
+char *strbuf = (char *)malloc(32);
+char *strbuf2 = (char *)malloc(32);
 
 void rc522Init() {
   SPI.begin();
@@ -32,7 +39,6 @@ void rc522ReadUID(void *readRFIDUID) {
     for (byte i = 0; i < 4; i++) {
       nuidPICC[i] = mfrc522.uid.uidByte[i];
     }
-    rc522_status[2] = 1;
     byte2HexStr(nuidPICC, strbuf);
     type2str(piccType, strbuf2);
     Serial.print("UID in HEX:");
@@ -46,7 +52,8 @@ void rc522ReadUID(void *readRFIDUID) {
     // Send sleep command
     mfrc522.PICC_HaltA();
 
-    global_flag = 5;
+    rc522_page = SHOW_INFO;
+
     delay(1);
   }
 }
